@@ -13,7 +13,7 @@ public class PlatformProjectIdentity {
         this.projectName = projectName;
         this.authorName = authorName;
         this.versionString = versionString;
-        this.uuid = UUID.fromString(projectName);
+        this.uuid = UUID.randomUUID();
     }
 
     public String getProjectName() {

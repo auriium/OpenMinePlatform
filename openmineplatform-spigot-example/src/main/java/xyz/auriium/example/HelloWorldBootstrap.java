@@ -1,4 +1,4 @@
-package xyz.auriium.openmineplatform.example;
+package xyz.auriium.example;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.auriium.openmineplatform.api.*;

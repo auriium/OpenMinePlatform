@@ -23,13 +23,15 @@ public abstract class SpigotBootstrap extends JavaPlugin {
         representation.getInsertionData().insert(platform);
 
         //1. Initialize plugin
-        controller = new ReloadablePluginControllerImpl(null, representation());
+        controller = new ReloadablePluginControllerImpl(platform, representation());
         controller.load();
 
     }
 
     @Override
     public void onDisable() {
+        if (controller == null) throw new IllegalStateException("Warning: Plugin controller was never initialized!");
+
         controller.stop();
     }
 

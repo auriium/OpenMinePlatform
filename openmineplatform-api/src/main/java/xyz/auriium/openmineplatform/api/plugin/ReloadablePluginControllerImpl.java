@@ -22,6 +22,7 @@ public class ReloadablePluginControllerImpl implements ReloadablePluginControlle
 
     @Override
     public void load() {
+        if (platform == null) throw new IllegalStateException("Platform is not present! Cannot load plugin!");
         plugin = representation.supply(platform, this);
 
         plugin.onStart();
@@ -36,6 +37,8 @@ public class ReloadablePluginControllerImpl implements ReloadablePluginControlle
 
     @Override
     public void reload() {
+        if (platform == null) throw new IllegalStateException("Platform is not present! Cannot reload plugin!");
+
         plugin.onStop();
 
         plugin = representation.supply(platform, this);

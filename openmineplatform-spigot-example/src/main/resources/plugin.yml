@@ -1,0 +1,7 @@
+name: HelloWorld
+version: 1.0S
+main: xyz.auriium.example.HelloWorldBootstrap
+
+commands:
+  reloadexample:
+    usage: "Use"
