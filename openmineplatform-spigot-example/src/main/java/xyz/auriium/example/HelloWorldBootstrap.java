@@ -23,8 +23,7 @@ public class HelloWorldBootstrap extends SpigotBootstrap {
 
         @Override
         public HookData getInsertionData() {
-            return HookData.make()
-                    .addServiceHook(null);
+            return HookData.make();
         }
 
         @Override
