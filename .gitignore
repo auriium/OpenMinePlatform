@@ -1,0 +1,5 @@
+/.idea/
+# Project exclude paths
+/openmineplatform-api/target/
+/openmineplatform-opinionated/target/
+/openmineplatform-spigot/target/
