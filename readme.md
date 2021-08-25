@@ -8,7 +8,6 @@ point of not being useful. Why does beetle include data handling, randomizers,
 messaging, scoreboards?
 
 Writing a utility is striking a balance between necessity and desire.
-
 Writing a java project correctly is making sure your package is specialized.
 
 OpenMinePlatform simply provides platform-agnostic access to commonly written
