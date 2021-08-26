@@ -12,6 +12,8 @@ import xyz.auriium.openmineplatform.api.interfaceable.OptionalTelescopeHandler;
 import xyz.auriium.openmineplatform.api.interfaceable.TelescopeHandler;
 import xyz.auriium.openmineplatform.api.interfaceable.user.UserPopper;
 import xyz.auriium.openmineplatform.api.scheduling.Scheduler;
+import xyz.auriium.openmineplatform.api.service.CommonPlatformServiceRegistry;
+import xyz.auriium.openmineplatform.api.service.ServiceRegistry;
 import xyz.auriium.openmineplatform.spigot.scheduler.SpigotScheduler;
 
 public class SpigotLauncher implements PlatformLauncher {
@@ -33,8 +35,9 @@ public class SpigotLauncher implements PlatformLauncher {
         InterfaceableRegistry registry = new SpigotInterfaceableRegistry(handler, popper, colorer, server);
         PlatformLocation location = new PlatformLocation(plugin.getDataFolder().toPath());
         Logger logger = LoggerFactory.getLogger(identity.getProjectName());
+        ServiceRegistry serviceRegistry = new CommonPlatformServiceRegistry();
 
-        PlatformPartA partA = new PlatformPartA(identity, location, registry, scheduler, colorer, logger);
+        PlatformPartA partA = new PlatformPartA(identity, location, registry, serviceRegistry, scheduler, colorer, logger);
 
         return new SpigotPlatform(partA, plugin);
     }

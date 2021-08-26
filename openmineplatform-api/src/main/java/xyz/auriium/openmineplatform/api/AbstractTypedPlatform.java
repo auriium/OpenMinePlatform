@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import xyz.auriium.openmineplatform.api.interfaceable.Colorer;
 import xyz.auriium.openmineplatform.api.interfaceable.InterfaceableRegistry;
 import xyz.auriium.openmineplatform.api.scheduling.Scheduler;
+import xyz.auriium.openmineplatform.api.service.ServiceRegistry;
 
 public abstract class AbstractTypedPlatform<T> implements TypedPlatform<T> {
 
@@ -24,7 +25,7 @@ public abstract class AbstractTypedPlatform<T> implements TypedPlatform<T> {
     }
 
     @Override
-    public InterfaceableRegistry interfaceables() {
+    public InterfaceableRegistry interRegistry() {
         return platformPartA.interfaceables();
     }
 
@@ -43,6 +44,8 @@ public abstract class AbstractTypedPlatform<T> implements TypedPlatform<T> {
         return platformPartA.logger();
     }
 
-
-
+    @Override
+    public ServiceRegistry serviceRegistry() {
+        return platformPartA.getServiceRegistry();
+    }
 }
