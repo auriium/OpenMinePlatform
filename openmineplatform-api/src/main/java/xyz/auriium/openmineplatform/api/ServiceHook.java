@@ -2,6 +2,8 @@ package xyz.auriium.openmineplatform.api;
 
 public interface ServiceHook<T> {
 
-    T execute(Platform platform);
+    Class<T> providedServiceType();
+    T provide(Platform platform);
+    String name();
 
 }

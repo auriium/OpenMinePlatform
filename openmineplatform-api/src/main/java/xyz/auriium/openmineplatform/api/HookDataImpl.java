@@ -31,7 +31,8 @@ public class HookDataImpl implements HookData {
         }
 
         for (ServiceHook<?> hook : serviceHooks) {
-            //TODO service registry
+            /// FIXME: 8/25/2021 safer cast here
+            platform.serviceRegistry().register((Class)hook.providedServiceType(), hook.provide(platform), hook.name());
         }
     }
 
