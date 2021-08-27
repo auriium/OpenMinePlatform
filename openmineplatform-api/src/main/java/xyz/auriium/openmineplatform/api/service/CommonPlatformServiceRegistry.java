@@ -25,6 +25,11 @@ public class CommonPlatformServiceRegistry implements PlatformServiceRegistry {
     }
 
     @Override
+    public boolean unregister(Class<?> clazz) {
+        return map.remove(clazz) != null;
+    }
+
+    @Override
     public <T> boolean hasService(Class<T> service) {
         return map.containsKey(service);
     }

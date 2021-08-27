@@ -1,12 +1,12 @@
 package xyz.auriium.openmineplatform.api;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HookDataImpl implements HookData {
 
-    private final Set<PlatformHook> platformHooks = new HashSet<>();
-    private final Set<ServiceHook<?>> serviceHooks = new HashSet<>();
+    private final List<PlatformHook> platformHooks = new ArrayList<>();
+    private final List<ServiceHook<?>> serviceHooks = new ArrayList<>();
 
     HookDataImpl() {}
 
@@ -25,15 +25,19 @@ public class HookDataImpl implements HookData {
     }
 
     @Override
-    public void insert(Platform platform) {
+    public void insert(Platform platform, boolean startup) {
         for (PlatformHook hook : platformHooks) {
-            hook.execute(platform);
+            if (startup == hook.startsBeforePlugin()) {
+                hook.execute(platform);
+            }
+
         }
 
         for (ServiceHook<?> hook : serviceHooks) {
             /// FIXME: 8/25/2021 safer cast here
-
-            platform.serviceRegistry().register((Class)hook.providedServiceType(), hook.provide(platform), hook.name());
+            if (startup == hook.startsBeforePlugin()) {
+                platform.serviceRegistry().register((Class)hook.providedServiceType(), hook.provide(platform), hook.name());
+            }
         }
     }
 

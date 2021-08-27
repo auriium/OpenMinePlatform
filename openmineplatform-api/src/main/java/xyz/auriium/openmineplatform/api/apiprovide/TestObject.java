@@ -1,8 +1,7 @@
 package xyz.auriium.openmineplatform.api.apiprovide;
 
-public class TestObject<T> {
+public class TestObject implements APIObject {
 
-    private volatile T apiObject;
 
 
 

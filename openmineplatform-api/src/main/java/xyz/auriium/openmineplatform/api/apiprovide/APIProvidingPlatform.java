@@ -1,6 +1,8 @@
 package xyz.auriium.openmineplatform.api.apiprovide;
 
-public interface APIProvidingPlatform<T extends APIObject> {
+import xyz.auriium.openmineplatform.api.Platform;
+
+public interface APIProvidingPlatform<T extends APIObject> extends Platform {
 
     T getAPI();
 

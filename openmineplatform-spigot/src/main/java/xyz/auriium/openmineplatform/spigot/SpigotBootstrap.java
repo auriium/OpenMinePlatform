@@ -1,12 +1,14 @@
 package xyz.auriium.openmineplatform.spigot;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import xyz.auriium.openmineplatform.api.Bootstrap;
 import xyz.auriium.openmineplatform.api.Platform;
+import xyz.auriium.openmineplatform.api.PlatformLauncher;
 import xyz.auriium.openmineplatform.api.plugin.PluginRepresentation;
 import xyz.auriium.openmineplatform.api.plugin.ReloadablePluginController;
 import xyz.auriium.openmineplatform.api.plugin.ReloadablePluginControllerImpl;
 
-public abstract class SpigotBootstrap extends JavaPlugin {
+public abstract class SpigotBootstrap extends JavaPlugin implements Bootstrap {
 
     private ReloadablePluginController controller;
 
@@ -16,15 +18,17 @@ public abstract class SpigotBootstrap extends JavaPlugin {
         //0. Create platform
 
         PluginRepresentation representation = representation();
-        Platform platform = new SpigotLauncher(this).launch(representation.getIdentity());
+        Platform platform = generateLauncher().launch(representation.getIdentity());
 
             //a. Activate all startup hooks
 
-        representation.getInsertionData().insert(platform);
+        representation.getInsertionData().insert(platform, true);
 
         //1. Initialize plugin
         controller = new ReloadablePluginControllerImpl(platform, representation());
         controller.load();
+
+        representation.getInsertionData().insert(platform, false);
 
     }
 
@@ -35,6 +39,8 @@ public abstract class SpigotBootstrap extends JavaPlugin {
         controller.stop();
     }
 
-    protected abstract PluginRepresentation representation();
-
+    @Override
+    public PlatformLauncher generateLauncher() {
+        return new SpigotLauncher(this);
+    }
 }

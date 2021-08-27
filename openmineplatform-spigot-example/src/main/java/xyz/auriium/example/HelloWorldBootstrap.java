@@ -12,7 +12,7 @@ import xyz.auriium.openmineplatform.spigot.SpigotBootstrap;
 public class HelloWorldBootstrap extends SpigotBootstrap {
 
     @Override
-    protected PluginRepresentation representation() {
+    public PluginRepresentation representation() {
         return new Representation();
     }
 

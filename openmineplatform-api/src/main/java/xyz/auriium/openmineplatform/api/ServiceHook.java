@@ -10,4 +10,8 @@ public interface ServiceHook<T> {
         return true;
     }
 
+    default boolean startsBeforePlugin() {
+        return true;
+    }
+
 }

@@ -1,4 +1,7 @@
 package xyz.auriium.openmineplatform.api.apiprovide;
 
-public interface APIProvider {
+public interface APIProvider<T> {
+
+    T provide();
+
 }

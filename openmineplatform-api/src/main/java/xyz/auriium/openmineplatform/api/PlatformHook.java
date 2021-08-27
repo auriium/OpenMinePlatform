@@ -9,4 +9,8 @@ public interface PlatformHook {
         return true;
     }
 
+    default boolean startsBeforePlugin() {
+        return true;
+    }
+
 }

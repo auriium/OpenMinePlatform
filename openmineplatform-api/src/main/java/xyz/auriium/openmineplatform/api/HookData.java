@@ -7,7 +7,7 @@ public interface HookData {
     HookData addPlatformHook(PlatformHook hook);
     HookData addServiceHook(ServiceHook<?> hook);
 
-    <T> void insert(Platform platform);
+    <T> void insert(Platform platform, boolean before);
 
     static HookData make() {
         return new HookDataImpl();
