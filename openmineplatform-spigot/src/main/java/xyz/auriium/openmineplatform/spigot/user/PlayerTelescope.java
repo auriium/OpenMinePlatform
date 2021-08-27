@@ -7,6 +7,10 @@ import xyz.auriium.openmineplatform.api.telescope.TelescopeResult;
 import xyz.auriium.openmineplatform.api.interfaceable.Interfaceable;
 import xyz.auriium.openmineplatform.api.telescope.Telescope;
 
+/**
+ * THIS IS UNSAFE AS HELL (Functionality like this is to be superceded by Existent, providing stateful objects is not Interfaceable's job)
+ */
+@Deprecated
 public class PlayerTelescope implements Telescope<Interfaceable, Player> {
 
     @Override

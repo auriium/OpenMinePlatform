@@ -9,8 +9,6 @@ import org.slf4j.LoggerFactory;
 import xyz.auriium.openmineplatform.api.*;
 import xyz.auriium.openmineplatform.api.interfaceable.Colorer;
 import xyz.auriium.openmineplatform.api.interfaceable.InterfaceableRegistry;
-import xyz.auriium.openmineplatform.api.interfaceable.OptionalTelescopeHandler;
-import xyz.auriium.openmineplatform.api.interfaceable.TelescopeHandler;
 import xyz.auriium.openmineplatform.api.interfaceable.user.UserPopper;
 import xyz.auriium.openmineplatform.api.scheduling.Scheduler;
 import xyz.auriium.openmineplatform.api.service.CommonPlatformServiceRegistry;
@@ -32,11 +30,10 @@ public class SpigotLauncher implements PlatformLauncher {
         BukkitAudiences audiences = BukkitAudiences.create(plugin);
 
         Scheduler scheduler = new SpigotScheduler(plugin);
-        TelescopeHandler handler = new OptionalTelescopeHandler();
         Server server = plugin.getServer();
         UserPopper<Player> popper = new SpigotPopper(server);
         Colorer colorer = new SpigotColorer();
-        InterfaceableRegistry registry = new SpigotInterfaceableRegistry(handler, audiences, popper, colorer, server);
+        InterfaceableRegistry registry = new SpigotInterfaceableRegistry(audiences, popper, colorer, server);
         PlatformLocation location = new PlatformLocation(plugin.getDataFolder().toPath());
         Logger logger = LoggerFactory.getLogger(identity.getProjectName());
         ServiceRegistry serviceRegistry = new CommonPlatformServiceRegistry();
