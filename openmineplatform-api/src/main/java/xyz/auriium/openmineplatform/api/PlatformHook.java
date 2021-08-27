@@ -5,4 +5,8 @@ public interface PlatformHook {
     void execute(Platform platform);
     String name();
 
+    default boolean isPersistent() {
+        return true;
+    }
+
 }

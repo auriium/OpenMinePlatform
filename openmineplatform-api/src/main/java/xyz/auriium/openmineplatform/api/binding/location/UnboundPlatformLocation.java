@@ -53,19 +53,19 @@ public class UnboundPlatformLocation implements PlatformLocation {
         return yaw;
     }
 
-    public static UnboundPlatformLocation of(long x, long y, long z) {
+    public static PlatformLocation of(long x, long y, long z) {
         return new UnboundPlatformLocation(x,y,z, null, null ,null);
     }
 
-    public static UnboundPlatformLocation of(long x, long y, long z, long pitch, long yaw) {
+    public static PlatformLocation of(long x, long y, long z, Long pitch, Long yaw) {
         return new UnboundPlatformLocation(x, y, z, pitch, yaw, null);
     }
 
-    public static UnboundPlatformLocation of(long x, long y, long z, String world) {
+    public static PlatformLocation of(long x, long y, long z, String world) {
         return new UnboundPlatformLocation(x, y, z, null, null, world);
     }
 
-    public static UnboundPlatformLocation of(long x, long y, long z, long pitch, long yaw, String world) {
+    public static PlatformLocation of(long x, long y, long z, Long pitch, Long yaw, String world) {
         return new UnboundPlatformLocation(x, y, z, pitch, yaw, world);
     }
 

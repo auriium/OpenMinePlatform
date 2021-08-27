@@ -6,4 +6,8 @@ public interface ServiceHook<T> {
     T provide(Platform platform);
     String name();
 
+    default boolean isPersistent() {
+        return true;
+    }
+
 }
