@@ -12,13 +12,15 @@ public abstract class SpigotBootstrap extends JavaPlugin implements Bootstrap {
 
     private ReloadablePluginController controller;
 
+    private volatile Platform platform;
+
     @Override
     public void onEnable() {
 
         //0. Create platform
 
         PluginRepresentation representation = representation();
-        Platform platform = generateLauncher().launch(representation.getIdentity());
+        platform = generateLauncher().launch(representation.getIdentity());
 
             //a. Activate all startup hooks
 
@@ -37,6 +39,8 @@ public abstract class SpigotBootstrap extends JavaPlugin implements Bootstrap {
         if (controller == null) throw new IllegalStateException("Warning: Plugin controller was never initialized!");
 
         controller.stop();
+
+        platform.interRegistry().close();
     }
 
     @Override

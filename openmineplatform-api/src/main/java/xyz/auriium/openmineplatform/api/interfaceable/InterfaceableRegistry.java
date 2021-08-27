@@ -59,4 +59,6 @@ public interface InterfaceableRegistry {
      */
     <O> O getTelescoping(UUID uuid, TelescopeMapping<O, Interfaceable> telescope);
 
+    void close();
+
 }

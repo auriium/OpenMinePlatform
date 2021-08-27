@@ -69,4 +69,9 @@ public class SpigotInterfaceableRegistry implements InterfaceableRegistry {
     public <O> O getTelescoping(UUID uuid, TelescopeMapping<O, Interfaceable> telescope) {
         return telescope.calculate(unsafe(uuid));
     }
+
+    @Override
+    public void close() {
+        audiences.close();
+    }
 }
