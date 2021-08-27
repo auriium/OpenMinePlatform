@@ -6,11 +6,11 @@ import xyz.auriium.openmineplatform.api.interfaceable.InterfaceableRegistry;
 import xyz.auriium.openmineplatform.api.scheduling.Scheduler;
 import xyz.auriium.openmineplatform.api.service.ServiceRegistry;
 
-public abstract class AbstractTypedPlatform<T> implements TypedPlatform<T> {
+public abstract class AbstractPlatform implements Platform {
 
     private final PlatformPartA platformPartA;
 
-    public AbstractTypedPlatform(PlatformPartA platformPartA) {
+    public AbstractPlatform(PlatformPartA platformPartA) {
         this.platformPartA = platformPartA;
     }
 

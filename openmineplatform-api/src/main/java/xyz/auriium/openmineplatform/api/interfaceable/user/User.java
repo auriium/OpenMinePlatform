@@ -30,4 +30,10 @@ public interface User extends Interfaceable {
     void sendTitleComponent(Title title);
     void sendTitle(PlatformTitle title);
 
+    void runCommandAsUser(String command);
+    void runCommandAsPlatform(String command);
+
+    @Deprecated
+    void sendClickable(String message, String command);
+
 }

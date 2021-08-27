@@ -1,4 +1,4 @@
-package xyz.auriium.openmineplatform.spigot;
+package xyz.auriium.openmineplatform.spigot.user;
 
 import org.bukkit.Server;
 import org.bukkit.entity.Player;

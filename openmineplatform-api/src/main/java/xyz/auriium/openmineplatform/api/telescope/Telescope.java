@@ -1,6 +1,4 @@
-package xyz.auriium.openmineplatform.api;
-
-import xyz.auriium.openmineplatform.api.TelescopeResult;
+package xyz.auriium.openmineplatform.api.telescope;
 
 /**
  * Represents a safe cast or conversion

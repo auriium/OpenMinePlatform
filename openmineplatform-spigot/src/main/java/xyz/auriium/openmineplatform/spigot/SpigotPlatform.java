@@ -2,8 +2,9 @@ package xyz.auriium.openmineplatform.spigot;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.auriium.openmineplatform.api.*;
+import xyz.auriium.openmineplatform.api.telescope.TelescopeMapping;
 
-public class SpigotPlatform extends AbstractTypedPlatform<JavaPlugin> {
+public class SpigotPlatform extends AbstractPlatform {
 
     private final JavaPlugin plugin;
 
@@ -12,17 +13,12 @@ public class SpigotPlatform extends AbstractTypedPlatform<JavaPlugin> {
         this.plugin = plugin;
     }
 
-    @Override
-    public JavaPlugin getBoundPlatform() {
+    public JavaPlugin getPlugin() {
         return plugin;
     }
 
     @Override
-    public <T extends Platform> T telescope(Telescope<Platform,T> telescope) {
-        var result = telescope.telescope(this);
-
-        if (!result.isSuccess()) throw new InvalidPlatformRescopeException("Attempted to smart cast (telescope) platform to a new platform type but failed: " + result.getError());
-
-        return result.getCompletion();
+    public <T> T telescope(TelescopeMapping<T, Platform> telescope) {
+        return telescope.calculate(this);
     }
 }

@@ -1,9 +1,11 @@
-package xyz.auriium.openmineplatform.spigot;
+package xyz.auriium.openmineplatform.spigot.user;
 
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.*;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
@@ -11,27 +13,33 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import xyz.auriium.openmineplatform.api.interfaceable.Colorer;
 import xyz.auriium.openmineplatform.api.binding.location.UnboundPlatformLocation;
+import xyz.auriium.openmineplatform.api.interfaceable.Interfaceable;
 import xyz.auriium.openmineplatform.api.interfaceable.NotExistentException;
-import xyz.auriium.openmineplatform.api.interfaceable.user.PlatformTitle;
-import xyz.auriium.openmineplatform.api.interfaceable.user.TypedUser;
-import xyz.auriium.openmineplatform.api.interfaceable.user.UserPopper;
+import xyz.auriium.openmineplatform.api.interfaceable.user.*;
+import xyz.auriium.openmineplatform.api.telescope.TelescopeMapping;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
-public class SpigotUser implements TypedUser<Player> {
+public class SpigotUser implements User {
+
+    private final Map<String, Object> states = new ConcurrentHashMap<>();
 
     private final UUID uuid;
     private final UserPopper<Player> popper;
     private final Colorer colorer;
     private final Server server;
+    private final BukkitAudiences audiences;
 
-    public SpigotUser(UUID uuid, UserPopper<Player> popper, Colorer colorer, Server server) {
+    public SpigotUser(UUID uuid, UserPopper<Player> popper, Colorer colorer, Server server, BukkitAudiences audiences) {
         this.uuid = uuid;
         this.popper = popper;
         this.colorer = colorer;
         this.server = server;
+        this.audiences = audiences;
     }
 
 
@@ -42,41 +50,23 @@ public class SpigotUser implements TypedUser<Player> {
 
     @Override
     public void sendComponent(Component component) {
-        popper.pop(uuid).ifPresent(
-                player -> player.sendMessage(colorer.color(component.toString()))
-        ); //TODO fix
+        audiences.player(uuid).sendMessage(component);
     }
 
     @Override
     public void sendString(String message) {
-        popper.pop(uuid).ifPresent(player -> player.sendMessage(colorer.color(message)));
+        audiences.player(uuid).sendMessage(Component.text(message));
     }
 
     @Override
     public void sendFormat(String message, Object... objects) {
-        popper.pop(uuid).ifPresent(player -> player.sendMessage(colorer.color(String.format(message, objects))));
+        audiences.player(uuid).sendMessage(Component.text(String.format(message, objects)));
     }
 
     @Override
-    public Optional<Player> accessRaw() {
-        return popper.pop(uuid);
+    public <T> T telescope(TelescopeMapping<T, Interfaceable> mapping) {
+        return mapping.calculate(this);
     }
-
-    @Override
-    public Player accessThrow() {
-        return accessRaw().orElseThrow(() -> new NotExistentException(uuid, "Attempted to access user but user was not found on server!"));
-    }
-
-    @Override
-    public void access(Consumer<Player> consumer) {
-        popper.pop(uuid).ifPresent(consumer);
-    }
-
-    @Override
-    public Class<Player> getUserClass() {
-        return Player.class;
-    }
-
 
     @Override
     public Optional<String> getName() {
@@ -107,12 +97,12 @@ public class SpigotUser implements TypedUser<Player> {
 
     @Override
     public void sendActionbarComponent(Component component) {
-        popper.pop(uuid).ifPresent(player -> player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(colorer.color(component.toString())))); //TODO fix
+        audiences.player(uuid).sendMessage(component);
     }
 
     @Override
     public void sendActionbar(String string) {
-        popper.pop(uuid).ifPresent(player ->player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(colorer.color(string))));
+        audiences.player(uuid).sendMessage(Component.text(string));
     }
 
     @Override
@@ -122,7 +112,7 @@ public class SpigotUser implements TypedUser<Player> {
 
     @Override
     public void sendTitleComponent(Title title) {
-        popper.pop(uuid).ifPresent(player -> player.sendMessage(title.toString())); //TODO
+        audiences.player(uuid).showTitle(title);
     }
 
     @Override
@@ -134,4 +124,32 @@ public class SpigotUser implements TypedUser<Player> {
                 title.getStay(),
                 title.getFadeout()));
     }
+
+    @Override
+    public void runCommandAsUser(String command) {
+        popper.pop(uuid).ifPresent(player -> {
+            server.dispatchCommand(player, command);
+        });
+    }
+
+    @Override
+    public void runCommandAsPlatform(String command) {
+        server.dispatchCommand(server.getConsoleSender(), command);
+    }
+
+    @Override
+    public void sendClickable(String message, String command) {
+        TextComponent component = new TextComponent(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', message)));
+        BaseComponent[] hoverComponent = new ComponentBuilder(ChatColor.translateAlternateColorCodes('&',message)).create();
+
+        component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + command));
+        component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverComponent));
+
+        popper.pop(uuid).ifPresent(player -> player.spigot().sendMessage(component));
+    }
+
+    public Optional<Player> getPlayer() {
+        return popper.pop(uuid);
+    }
+
 }

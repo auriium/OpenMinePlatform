@@ -5,6 +5,7 @@ import xyz.auriium.openmineplatform.api.interfaceable.Colorer;
 import xyz.auriium.openmineplatform.api.interfaceable.InterfaceableRegistry;
 import xyz.auriium.openmineplatform.api.scheduling.Scheduler;
 import xyz.auriium.openmineplatform.api.service.ServiceRegistry;
+import xyz.auriium.openmineplatform.api.telescope.TelescopeMapping;
 
 public interface Platform {
 
@@ -16,6 +17,6 @@ public interface Platform {
     Colorer colorer();
     Logger logger();
 
-    <T extends Platform> T telescope(Telescope<Platform,T> telescope);
+    <T> T telescope(TelescopeMapping<T,Platform> telescope);
 
 }

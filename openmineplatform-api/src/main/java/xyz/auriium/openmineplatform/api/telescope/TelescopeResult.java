@@ -1,4 +1,4 @@
-package xyz.auriium.openmineplatform.api;
+package xyz.auriium.openmineplatform.api.telescope;
 
 public class TelescopeResult<I,O> {
 

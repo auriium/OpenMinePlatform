@@ -1,5 +1,7 @@
 package xyz.auriium.openmineplatform.api;
 
+import xyz.auriium.openmineplatform.api.telescope.Telescope;
+
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
