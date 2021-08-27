@@ -11,4 +11,6 @@ public interface PlatformLocation {
     @Nullable Long getPitch();
     @Nullable Long getYaw();
 
+    String getWorld();
+
 }

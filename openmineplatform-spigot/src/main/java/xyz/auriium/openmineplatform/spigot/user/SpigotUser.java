@@ -11,6 +11,7 @@ import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+import xyz.auriium.openmineplatform.api.binding.location.PlatformLocation;
 import xyz.auriium.openmineplatform.api.interfaceable.Colorer;
 import xyz.auriium.openmineplatform.api.binding.location.UnboundPlatformLocation;
 import xyz.auriium.openmineplatform.api.interfaceable.Interfaceable;
@@ -74,7 +75,7 @@ public class SpigotUser implements User {
     }
 
     @Override
-    public void teleport(UnboundPlatformLocation platformLocation) {
+    public void teleport(PlatformLocation platformLocation) {
         var optional = popper.pop(uuid);
 
         if (optional.isEmpty()) return;

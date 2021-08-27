@@ -2,6 +2,7 @@ package xyz.auriium.openmineplatform.api.interfaceable.user;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
+import xyz.auriium.openmineplatform.api.binding.location.PlatformLocation;
 import xyz.auriium.openmineplatform.api.binding.location.UnboundPlatformLocation;
 import xyz.auriium.openmineplatform.api.interfaceable.Interfaceable;
 
@@ -20,7 +21,7 @@ public interface User extends Interfaceable {
     Optional<String> getName();
 
 
-    void teleport(UnboundPlatformLocation platformLocation);
+    void teleport(PlatformLocation platformLocation);
 
     void sendActionbarComponent(Component component);
     void sendActionbar(String string);

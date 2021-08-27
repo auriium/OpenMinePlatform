@@ -22,7 +22,7 @@ public class UnboundPlatformLocation implements PlatformLocation {
     }
 
 
-    @Nullable
+    @Override
     public String getWorld() {
         return world;
     }
