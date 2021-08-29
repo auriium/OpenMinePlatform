@@ -29,11 +29,13 @@ public class SpigotLauncher implements PlatformLauncher {
 
         BukkitAudiences audiences = BukkitAudiences.create(plugin);
 
+
         Scheduler scheduler = new SpigotScheduler(plugin);
+        Commander commander = new SpigotCommander(plugin.getServer(), scheduler);
         Server server = plugin.getServer();
         UserPopper<Player> popper = new SpigotPopper(server);
         Colorer colorer = new SpigotColorer();
-        InterfaceableRegistry registry = new SpigotInterfaceableRegistry(audiences, popper, colorer, server);
+        InterfaceableRegistry registry = new SpigotInterfaceableRegistry(commander, audiences, popper, colorer, server);
         PlatformLocation location = new PlatformLocation(plugin.getDataFolder().toPath());
         Logger logger = LoggerFactory.getLogger(identity.getProjectName());
         ServiceRegistry serviceRegistry = new CommonPlatformServiceRegistry();

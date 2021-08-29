@@ -13,17 +13,15 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import xyz.auriium.openmineplatform.api.binding.location.PlatformLocation;
 import xyz.auriium.openmineplatform.api.interfaceable.Colorer;
-import xyz.auriium.openmineplatform.api.binding.location.UnboundPlatformLocation;
 import xyz.auriium.openmineplatform.api.interfaceable.Interfaceable;
-import xyz.auriium.openmineplatform.api.interfaceable.NotExistentException;
 import xyz.auriium.openmineplatform.api.interfaceable.user.*;
 import xyz.auriium.openmineplatform.api.telescope.TelescopeMapping;
+import xyz.auriium.openmineplatform.spigot.Commander;
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Consumer;
 
 public class SpigotUser implements User {
 
@@ -34,13 +32,15 @@ public class SpigotUser implements User {
     private final Colorer colorer;
     private final Server server;
     private final BukkitAudiences audiences;
+    private final Commander commander;
 
-    public SpigotUser(UUID uuid, UserPopper<Player> popper, Colorer colorer, Server server, BukkitAudiences audiences) {
+    public SpigotUser(UUID uuid, UserPopper<Player> popper, Colorer colorer, Server server, BukkitAudiences audiences, Commander commander) {
         this.uuid = uuid;
         this.popper = popper;
         this.colorer = colorer;
         this.server = server;
         this.audiences = audiences;
+        this.commander = commander;
     }
 
 
@@ -103,7 +103,7 @@ public class SpigotUser implements User {
 
     @Override
     public void sendActionbar(String string) {
-        audiences.player(uuid).sendActionBar(Component.text(string));
+        audiences.player(uuid).sendActionBar(Component.text(colorer.color(string)));
     }
 
     @Override
@@ -128,14 +128,12 @@ public class SpigotUser implements User {
 
     @Override
     public void runCommandAsUser(String command) {
-        popper.pop(uuid).ifPresent(player -> {
-            server.dispatchCommand(player, command);
-        });
+        popper.pop(uuid).ifPresent(player -> commander.runAsPlayer(player, command));
     }
 
     @Override
     public void runCommandAsPlatform(String command) {
-        server.dispatchCommand(server.getConsoleSender(), command);
+        commander.runAsServer(command);
     }
 
     @Override
