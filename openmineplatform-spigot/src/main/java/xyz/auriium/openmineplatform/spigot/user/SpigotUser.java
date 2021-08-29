@@ -56,7 +56,7 @@ public class SpigotUser implements User {
 
     @Override
     public void sendString(String message) {
-        audiences.player(uuid).sendMessage(Component.text(message));
+        audiences.player(uuid).sendMessage(Component.text(colorer.color(message)));
     }
 
     @Override
