@@ -98,12 +98,12 @@ public class SpigotUser implements User {
 
     @Override
     public void sendActionbarComponent(Component component) {
-        audiences.player(uuid).sendMessage(component);
+        audiences.player(uuid).sendActionBar(component);
     }
 
     @Override
     public void sendActionbar(String string) {
-        audiences.player(uuid).sendMessage(Component.text(string));
+        audiences.player(uuid).sendActionBar(Component.text(string));
     }
 
     @Override
