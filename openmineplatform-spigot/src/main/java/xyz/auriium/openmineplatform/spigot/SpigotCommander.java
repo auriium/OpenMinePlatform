@@ -31,6 +31,7 @@ public class SpigotCommander implements Commander {
     public void runAsServer(String cmd) {
         if (server.isPrimaryThread()) {
             server.dispatchCommand(server.getConsoleSender(), cmd);
+            return;
         }
 
         scheduler.run(() -> server.dispatchCommand(server.getConsoleSender(), cmd));
