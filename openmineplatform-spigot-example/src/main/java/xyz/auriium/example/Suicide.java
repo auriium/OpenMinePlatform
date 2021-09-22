@@ -22,7 +22,6 @@ package xyz.auriium.example;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.jetbrains.annotations.NotNull;
 import xyz.auriium.openmineplatform.api.plugin.ReloadablePluginState;
 
 public class Suicide implements CommandExecutor {
@@ -34,7 +33,7 @@ public class Suicide implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+    public boolean onCommand( CommandSender commandSender, Command command, String s, String[] strings) {
         commandSender.sendMessage("Restarting!");
         state.reload();
 
