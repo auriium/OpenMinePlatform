@@ -19,7 +19,6 @@
 
 package xyz.auriium.openmineplatform.spigot;
 
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import xyz.auriium.openmineplatform.api.interfaceable.Colorer;
@@ -34,14 +33,12 @@ import java.util.*;
 public class SpigotInterfaceableRegistry implements InterfaceableRegistry {
 
     private final Commander commander;
-    private final BukkitAudiences audiences;
     private final UserPopper<Player> popper;
     private final Colorer colorer;
     private final Server server;
 
-    public SpigotInterfaceableRegistry(Commander commander, BukkitAudiences audiences, UserPopper<Player> popper, Colorer colorer, Server server) {
+    public SpigotInterfaceableRegistry(Commander commander, UserPopper<Player> popper, Colorer colorer, Server server) {
         this.commander = commander;
-        this.audiences = audiences;
         this.popper = popper;
         this.colorer = colorer;
         this.server = server;
@@ -73,7 +70,7 @@ public class SpigotInterfaceableRegistry implements InterfaceableRegistry {
     }
 
     public Interfaceable unsafe(UUID uuid) {
-        return new SpigotUser(uuid, popper, colorer, server, audiences, commander);
+        return new SpigotUser(uuid, popper, colorer, server, commander);
     }
 
 
@@ -93,6 +90,6 @@ public class SpigotInterfaceableRegistry implements InterfaceableRegistry {
 
     @Override
     public void close() {
-        audiences.close();
+
     }
 }

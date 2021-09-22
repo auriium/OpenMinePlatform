@@ -19,9 +19,6 @@
 
 package xyz.auriium.openmineplatform.spigot.user;
 
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.title.Title;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.*;
@@ -33,7 +30,9 @@ import org.bukkit.entity.Player;
 import xyz.auriium.openmineplatform.api.binding.location.PlatformLocation;
 import xyz.auriium.openmineplatform.api.interfaceable.Colorer;
 import xyz.auriium.openmineplatform.api.interfaceable.Interfaceable;
-import xyz.auriium.openmineplatform.api.interfaceable.user.*;
+import xyz.auriium.openmineplatform.api.interfaceable.user.PlatformTitle;
+import xyz.auriium.openmineplatform.api.interfaceable.user.User;
+import xyz.auriium.openmineplatform.api.interfaceable.user.UserPopper;
 import xyz.auriium.openmineplatform.api.telescope.TelescopeMapping;
 import xyz.auriium.openmineplatform.spigot.Commander;
 
@@ -50,15 +49,13 @@ public class SpigotUser implements User {
     private final UserPopper<Player> popper;
     private final Colorer colorer;
     private final Server server;
-    private final BukkitAudiences audiences;
     private final Commander commander;
 
-    public SpigotUser(UUID uuid, UserPopper<Player> popper, Colorer colorer, Server server, BukkitAudiences audiences, Commander commander) {
+    public SpigotUser(UUID uuid, UserPopper<Player> popper, Colorer colorer, Server server, Commander commander) {
         this.uuid = uuid;
         this.popper = popper;
         this.colorer = colorer;
         this.server = server;
-        this.audiences = audiences;
         this.commander = commander;
     }
 
@@ -68,19 +65,16 @@ public class SpigotUser implements User {
         return uuid;
     }
 
-    @Override
-    public void sendComponent(Component component) {
-        audiences.player(uuid).sendMessage(component);
-    }
 
     @Override
     public void sendString(String message) {
-        audiences.player(uuid).sendMessage(Component.text(colorer.color(message)));
+
+        popper.pop(this.uuid).ifPresent(player -> player.sendMessage(colorer.color(message)));
     }
 
     @Override
     public void sendFormat(String message, Object... objects) {
-        audiences.player(uuid).sendMessage(Component.text(String.format(message, objects)));
+        popper.pop(this.uuid).ifPresent(player -> player.sendMessage(colorer.color(String.format(message, objects))));
     }
 
     @Override
@@ -116,23 +110,13 @@ public class SpigotUser implements User {
     }
 
     @Override
-    public void sendActionbarComponent(Component component) {
-        audiences.player(uuid).sendActionBar(component);
-    }
-
-    @Override
     public void sendActionbar(String string) {
-        audiences.player(uuid).sendActionBar(Component.text(colorer.color(string)));
+        popper.pop(this.uuid).ifPresent(player -> player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(colorer.color(string))));
     }
 
     @Override
     public void sendSystem(String string) {
         popper.pop(uuid).ifPresent(player -> player.spigot().sendMessage(ChatMessageType.SYSTEM, TextComponent.fromLegacyText(colorer.color(string))));
-    }
-
-    @Override
-    public void sendTitleComponent(Title title) {
-        audiences.player(uuid).showTitle(title);
     }
 
     @Override

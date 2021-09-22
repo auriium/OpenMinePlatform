@@ -19,8 +19,6 @@
 
 package xyz.auriium.openmineplatform.api.binding.location;
 
-import org.jetbrains.annotations.Nullable;
-
 public class UnboundPlatformLocation implements PlatformLocation {
 
     private final long x;
@@ -61,7 +59,6 @@ public class UnboundPlatformLocation implements PlatformLocation {
         return z;
     }
 
-    @Nullable
     @Override
     public Long getPitch() {
         return pitch;

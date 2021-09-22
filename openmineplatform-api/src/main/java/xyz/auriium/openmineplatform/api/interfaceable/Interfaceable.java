@@ -19,8 +19,6 @@
 
 package xyz.auriium.openmineplatform.api.interfaceable;
 
-import net.kyori.adventure.text.Component;
-import xyz.auriium.openmineplatform.api.interfaceable.user.User;
 import xyz.auriium.openmineplatform.api.telescope.TelescopeMapping;
 
 import java.util.UUID;
@@ -40,7 +38,6 @@ public interface Interfaceable {
 
     UUID getObjectUUID();
 
-    void sendComponent(Component component);
     void sendString(String message);
     void sendFormat(String message, Object... objects);
 
