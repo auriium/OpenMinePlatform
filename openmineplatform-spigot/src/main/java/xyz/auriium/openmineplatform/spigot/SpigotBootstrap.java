@@ -58,8 +58,6 @@ public abstract class SpigotBootstrap extends JavaPlugin implements Bootstrap {
         if (controller == null) throw new IllegalStateException("Warning: Plugin controller was never initialized!");
 
         controller.stop();
-
-        platform.interRegistry().close();
     }
 
     @Override

@@ -49,6 +49,8 @@ public class ReloadablePluginControllerImpl implements ReloadablePluginControlle
 
     @Override
     public void stop() {
+        platform.scheduler().closeApplication();
+
         plugin.onStop();
 
         plugin = null;
@@ -57,6 +59,8 @@ public class ReloadablePluginControllerImpl implements ReloadablePluginControlle
     @Override
     public void reload() {
         if (platform == null) throw new IllegalStateException("Platform is not present! Cannot reload plugin!");
+
+        platform.scheduler().closePlatform();
 
         plugin.onStop();
 
